@@ -1,6 +1,8 @@
+#!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
 import { ensureFileExists, getProjectRoot } from './utils/dir.js';
+import { colorizer } from './utils/logger.js';
 function bumpPatch(version) {
     const parts = version.split('.').map((n) => Number(n));
     if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) {
@@ -34,10 +36,10 @@ export function bumpRootPackageVersion() {
 // esecuzione diretta (cli entrypoint)
 try {
     const v = bumpRootPackageVersion();
-    console.log(`✔ Root package.json version bumped to ${v}`);
+    console.log(`${colorizer('✔', 'green')} Root package.json version bumped to ${colorizer(v, 'magenta')}`);
 }
 catch (err) {
     console.error(err?.message ?? err);
     process.exit(1);
 }
-//# sourceMappingURL=bump.js.map
+//# sourceMappingURL=cic-bump.js.map

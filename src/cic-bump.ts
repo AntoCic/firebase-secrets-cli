@@ -1,6 +1,9 @@
+#!/usr/bin/env node
+
 import fs from 'node:fs'
 import path from 'node:path'
 import { ensureFileExists, getProjectRoot } from './utils/dir.js'
+import { colorizer } from './utils/logger.js'
 
 function bumpPatch(version: string): string {
     const parts = version.split('.').map((n) => Number(n))
@@ -46,7 +49,7 @@ export function bumpRootPackageVersion(): string {
 // esecuzione diretta (cli entrypoint)
 try {
     const v = bumpRootPackageVersion()
-    console.log(`✔ Root package.json version bumped to ${v}`)
+    console.log(`${colorizer('✔','green')} Root package.json version bumped to ${colorizer(v,'magenta')}`)
 } catch (err: any) {
     console.error(err?.message ?? err)
     process.exit(1)
