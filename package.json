@@ -1,0 +1,28 @@
+{
+  "name": "firebase-secrets-cli",
+  "version": "0.1.1",
+  "type": "module",
+  "bin": {
+    "firebase-secrets": "./dist/firebase-secrets.js",
+    "cic:index": "./dist/cic-index.js",
+    "cic:bump": "./dist/bump.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "pack": "npm run build && npm pack",
+    "deploy": "npm run build && node scripts/bump-version.cjs && npm pack && npm publish --access public",
+    "start": "npm run build && node dist/cic-index.js"
+  },
+  "dependencies": {
+    "@inquirer/select": "^5.0.4",
+    "inquirer": "^13.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.10",
+    "typescript": "^5.9.3"
+  }
+}
