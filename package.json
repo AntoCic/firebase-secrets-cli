@@ -1,6 +1,6 @@
 {
   "name": "firebase-secrets-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "bin": {
     "firebase-secrets": "./dist/firebase-secrets.js",
@@ -29,5 +29,13 @@
   "devDependencies": {
     "@types/node": "^25.0.10",
     "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntoCic/firebase-secrets-cli.git"
+  },
+  "homepage": "https://github.com/AntoCic/firebase-secrets-cli#readme",
+  "bugs": {
+    "url": "https://github.com/AntoCic/firebase-secrets-cli/issues"
   }
 }
