@@ -3,8 +3,14 @@
 import select from '@inquirer/select'
 import inquirer from 'inquirer'
 import { initFirebaseSecretsProject } from './utils/init.js'
+import { colorizer } from './utils/logger.js'
 
-type Action = 'init' | 'firebase-secrets' | 'exit'
+type Action =
+    | 'init'
+    | 'firebase-secrets'
+    | 'bump'
+    | 'push'
+    | 'exit'
 
 async function main() {
     console.log('✔ cic CLI')
@@ -14,6 +20,8 @@ async function main() {
         choices: [
             { name: 'Init (Firebase Secrets)', value: 'init' },
             { name: 'Firebase Secrets Manager', value: 'firebase-secrets' },
+            { name: 'Bump version (package.json)', value: 'bump' },
+            { name: 'Push (changelog + git)', value: 'push' },
             { name: 'Exit', value: 'exit' },
         ],
     })
@@ -28,22 +36,14 @@ async function main() {
                 default: false,
             },
         ])
-
-        if (!ok) {
-            console.log('annullato')
-            return
-        }
-
+        if (!ok) { console.log('annullato'); return; }
         const res = initFirebaseSecretsProject()
-
         console.log('\n✔ Init completato')
         console.log('Root:', res.rootDir)
-
         if (res.created.length) {
             console.log('\nCreati:')
             for (const p of res.created) console.log(' +', p)
         }
-
         if (res.alreadyExists.length) {
             console.log('\nGià esistenti (non toccati):')
             for (const p of res.alreadyExists) console.log(' =', p)
@@ -52,14 +52,18 @@ async function main() {
     }
 
     if (action === 'firebase-secrets') {
-        await import('./firebase-secrets.js')
-        return
+        await import('./firebase-secrets.js'); return;// comportamento voluto
     }
 
-    console.log('bye')
+    if (action === 'bump') {
+        await import('./cic-bump.js'); return;
+    }
+
+    if (action === 'push') {
+        await import('./cic-push.js'); return;
+    }
+
+    console.log(`${colorizer('A presto!', 'brightGreen')} 👋`)
 }
 
-main().catch((err) => {
-    console.error('❌ Errore:', err instanceof Error ? err.message : err)
-    process.exit(1)
-})
+main().catch((err) => { console.error('❌ Errore:', err instanceof Error ? err.message : err); process.exit(1); })

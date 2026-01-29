@@ -2,6 +2,7 @@
 import select from '@inquirer/select';
 import inquirer from 'inquirer';
 import { initFirebaseSecretsProject } from './utils/init.js';
+import { colorizer } from './utils/logger.js';
 async function main() {
     console.log('✔ cic CLI');
     const action = await select({
@@ -9,6 +10,8 @@ async function main() {
         choices: [
             { name: 'Init (Firebase Secrets)', value: 'init' },
             { name: 'Firebase Secrets Manager', value: 'firebase-secrets' },
+            { name: 'Bump version (package.json)', value: 'bump' },
+            { name: 'Push (changelog + git)', value: 'push' },
             { name: 'Exit', value: 'exit' },
         ],
     });
@@ -42,12 +45,17 @@ async function main() {
     }
     if (action === 'firebase-secrets') {
         await import('./firebase-secrets.js');
+        return; // comportamento voluto
+    }
+    if (action === 'bump') {
+        await import('./cic-bump.js');
         return;
     }
-    console.log('bye');
+    if (action === 'push') {
+        await import('./cic-push.js');
+        return;
+    }
+    console.log(`${colorizer('A presto!', 'brightGreen')} 👋`);
 }
-main().catch((err) => {
-    console.error('❌ Errore:', err instanceof Error ? err.message : err);
-    process.exit(1);
-});
+main().catch((err) => { console.error('❌ Errore:', err instanceof Error ? err.message : err); process.exit(1); });
 //# sourceMappingURL=cic-index.js.map

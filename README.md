@@ -50,16 +50,10 @@ La CLI propone una lista di chiavi lette da `functions/src/config/secret.ts`, ma
 
 ## Installazione
 
-### Globale (da npm)
+### npm
 
 ```bash
-npm i -g firebase-secrets-cli
-```
-
-### Esecuzione senza installare (consigliato per test)
-
-```bash
-npx firebase-secrets-cli
+npm i -D firebase-secrets-cli
 ```
 
 ## Comandi disponibili
@@ -67,8 +61,9 @@ npx firebase-secrets-cli
 Il pacchetto espone questi binari (da `package.json`):
 
 - `firebase-secrets` → CLI principale
-- `cic:index` → entrypoint secondario (utility/launcher)
-- `cic:bump` → utility di bump versione
+- `cic-index` → entrypoint secondario (utility/launcher)
+- `cic-bump` → utility di bump versione
+- `cic-push` → utility per aggiornare `CHANGELOG.md` e gestire commit/tag/push Git
 
 Esempi:
 
@@ -77,28 +72,19 @@ Esempi:
 npx firebase-secrets
 
 # utility index (se prevista nel tuo flusso)
-npx cic:index
+npx cic-index
 
 # bump versione (se prevista nel tuo flusso)
-npx cic:bump
+npx cic-bump
+
+# push changelog + git (se prevista nel tuo flusso)
+npx cic-push
 ```
-
-## Sviluppo locale
-
-Script disponibili:
-
-```bash
-npm run build   # compila TypeScript in dist/
-npm run start   # build + esegue dist/cic-index.js
-npm run pack    # build + npm pack
-npm run deploy  # build + bump + pack + publish
-```
-
-Compilazione: TypeScript con `module`/`moduleResolution` **NodeNext**, output in `dist/`.
 
 ## Troubleshooting
 
 ### “Non trova functions/.secret.local o secret.ts”
+
 - Verifica di lanciare il comando dalla **root del repo** (dove esiste `functions/`).
 - In caso di repo senza i file, la CLI dovrebbe poterli creare/aggiornare quando esegui operazioni tipo `set`/`update` (dipende dall’implementazione). Se non ci sono controlli ancora, aggiungerli è una buona prossima patch:
   - se manca `functions/` → errore chiaro
@@ -106,7 +92,9 @@ Compilazione: TypeScript con `module`/`moduleResolution` **NodeNext**, output in
   - se manca `secret.ts` → scaffolding minimale del registry
 
 ### Permessi Firebase
+
 Se i comandi `firebase functions:secrets:*` falliscono:
+
 - `firebase login`
 - seleziona il progetto corretto (`firebase use <alias|projectId>`)
 - verifica di avere i permessi IAM necessari
