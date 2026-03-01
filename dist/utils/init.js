@@ -76,7 +76,9 @@ export function initFirebaseSecretsProject(startDir = process.cwd()) {
     ensureFile(secretLocalFile, '', created, alreadyExists);
     // 3) secret.ts (template coerente con parseExistingSecretKeysFromTs / writeSecretTs)
     const secretTsTemplate = [
-        '// functions/src/config/secret.ts',
+        '// ! non toccare questo file perche e autogenerato con firebase-secrets-cli',
+        '',
+        "import { defineSecret } from 'firebase-functions/params';",
         '',
         'export const secret = {',
         '} as const;',

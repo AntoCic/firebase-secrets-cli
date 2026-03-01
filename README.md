@@ -2,9 +2,7 @@
 
 CLI interattiva per la gestione centralizzata dei **Firebase Functions Secrets** (Firebase Secrets Manager), con sincronizzazione dei riferimenti anche nei file locali del repository.
 
-## Changelog
-
-- [CHANGELOG.md](./CHANGELOG.md)
+- [repo git](https://github.com/AntoCic/firebase-secrets-cli)
 
 ## Changelog
 
@@ -117,6 +115,4 @@ Se i comandi `firebase functions:secrets:*` falliscono:
 
 ## Links
 
-- Repo: https://github.com/AntoCic/firebase-secrets-cli
 - Issues: https://github.com/AntoCic/firebase-secrets-cli/issues
-- Changelog: ./CHANGELOG.md

@@ -19,13 +19,19 @@ export function writeSecretTs(keys) {
     ensureFileDir(SECRET_TS_FILE);
     const unique = Array.from(new Set(keys)).sort((a, b) => a.localeCompare(b));
     const lines = [
-        '// functions/src/config/secret.ts',
+        '// ! non toccare questo file perche e autogenerato con firebase-secrets-cli',
+        '',
+        "import { defineSecret } from 'firebase-functions/params';",
         '',
         'export const secret = {',
         ...unique.map((k) => `    ${k}: '${k}',`),
-        '} as const;',
-        ''
+        '} as const;'
     ];
+    if (unique.length > 0) {
+        lines.push('');
+        lines.push(...unique.map((k) => `export const ${k} = defineSecret('${k}');`));
+    }
+    lines.push('');
     fs.writeFileSync(SECRET_TS_FILE, lines.join('\n'), 'utf-8');
 }
 export function removeSecretKeyFromTs(keys, keyToRemove) {
